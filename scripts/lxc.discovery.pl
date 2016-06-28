@@ -6,10 +6,10 @@
 #
 # Zabbix 2 - LXC containers autodiscovery for linux
 #
-# all containers listed in cgroup/lxc are returned
+# all containers listed in cgroup/pids/lxc are returned
 #
 
-@result = `ls /sys/fs/cgroup/lxc > /dev/null 2>&1`;
+@result = `ls /sys/fs/cgroup/pids/lxc > /dev/null 2>&1`;
 
 if ( $? == -1 ){
   #print "command failed: $!\n";
@@ -18,8 +18,8 @@ else {
   # printf "command exited with value %d", $? >> 8;
 
   if ( $? == 0 ){
-    #debian
-    our $command="find /sys/fs/cgroup/lxc/* -type d -exec ls -d {} \\;";
+    # debian
+    our $command="find /sys/fs/cgroup/pids/lxc/* -maxdepth 0 -type d -exec ls -d {} \\;";
   }
   else {
     # centos or another OS
